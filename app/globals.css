@@ -1,26 +1,56 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* chrome surfaces - dark-mode-first, no light variant planned */
+  --bg: #0b0f14;
+  --surface: #121822;
+  --surface-raised: #182130;
+  --border: #253044;
+
+  /* chrome text */
+  --text: #e8edf5;
+  --muted: #93a1b8;
+  --faint: #57647c;
+
+  /* chrome accent */
+  --accent: #3b82f6;
+  --accent-hover: #5b93f7;
+  --accent-ink: #071022;
+
+  /* certificate artifact - always light, independent of chrome theme.
+     Matches blueprint/references/cert-example.png, not the earlier
+     /prototype guess (which used a brighter blue and a gold flourish). */
+  --cert-bg: #fffdf8;
+  --cert-border: #2f6f7e;
+  --cert-border-inner: #86b4bd;
+  --cert-ink: #1c2430;
+  --cert-ink-muted: #667085;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-ink: var(--accent-ink);
+
+  --color-cert-bg: var(--cert-bg);
+  --color-cert-border: var(--cert-border);
+  --color-cert-border-inner: var(--cert-border-inner);
+  --color-cert-ink: var(--cert-ink);
+  --color-cert-ink-muted: var(--cert-ink-muted);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
