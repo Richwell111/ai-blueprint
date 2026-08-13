@@ -1,0 +1,45 @@
+/* Theme variables - the durable output of /prototype.
+   Port this block into the real app's globals.css @theme once feature 1/2 lands.
+   App chrome is dark-mode-first with a blue accent; the certificate artifact
+   stays light and print-friendly regardless of app theme, so it gets its own
+   token set instead of reusing the chrome surfaces. */
+
+:root {
+  /* chrome surfaces */
+  --bg: #0b0f14;
+  --surface: #121822;
+  --surface-raised: #182130;
+  --border: #253044;
+
+  /* chrome text */
+  --text: #e8edf5;
+  --muted: #93a1b8;
+  --faint: #57647c;
+
+  /* chrome accent */
+  --accent: #3b82f6;
+  --accent-hover: #5b93f7;
+  --accent-ink: #071022;
+
+  /* certificate artifact - always light, independent of chrome theme */
+  --cert-bg: #fffdf8;
+  --cert-border: #1d4ed8;
+  --cert-border-inner: #7ea3f1;
+  --cert-flourish: #c9a86a;
+  --cert-ink: #1c2430;
+  --cert-ink-muted: #5a6478;
+
+  /* type */
+  --font-sans: -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  --font-serif: Georgia, "Times New Roman", "Iowan Old Style", serif;
+
+  /* scale */
+  --radius: 10px;
+  --radius-sm: 6px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+}

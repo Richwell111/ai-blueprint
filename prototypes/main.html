@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>CertiCreate - prototype</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="theme.css" />
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  /* header */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4) var(--space-6);
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: -0.01em;
+  }
+  .brand-mark {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-sm);
+    background: var(--accent);
+    color: var(--accent-ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  header .tagline {
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  /* layout */
+  main {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: var(--space-6);
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: var(--space-6);
+    align-items: start;
+  }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-5);
+  }
+  .panel + .panel { margin-top: var(--space-5); }
+
+  .panel h2 {
+    margin: 0 0 var(--space-4);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+  }
+
+  .field { margin-bottom: var(--space-4); }
+  .field:last-child { margin-bottom: 0; }
+  .field label {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: var(--space-2);
+  }
+  .field input {
+    width: 100%;
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-size: 14px;
+    font-family: var(--font-sans);
+    padding: 10px var(--space-3);
+  }
+  .field input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+
+  /* template picker */
+  .templates {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+  }
+  .template-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2);
+    cursor: pointer;
+    background: var(--surface-raised);
+  }
+  .template-card.selected {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+  .template-swatch {
+    height: 44px;
+    border-radius: 4px;
+    margin-bottom: var(--space-2);
+    background: var(--cert-bg);
+    border: 2px solid var(--cert-border);
+  }
+  .template-swatch.alt2 { border-style: dashed; border-color: var(--cert-flourish); }
+  .template-swatch.alt3 { border: 1px solid var(--border); }
+  .template-card .name {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+  }
+  .template-card.selected .name { color: var(--text); }
+
+  /* brand settings */
+  .swatches { display: flex; gap: var(--space-2); }
+  .swatch {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+  }
+  .swatch.selected { border-color: var(--text); }
+  .logo-upload {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--surface-raised);
+    border: 1px dashed var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--faint);
+    font-size: 11px;
+    text-align: center;
+    margin-bottom: var(--space-3);
+  }
+
+  /* history */
+  .history-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .history-row:last-child { border-bottom: none; }
+  .history-main .name { font-weight: 500; }
+  .history-main .meta { color: var(--muted); font-size: 12px; margin-top: 2px; }
+  .history-link {
+    color: var(--accent);
+    font-size: 12px;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .history-link:hover { color: var(--accent-hover); }
+
+  /* preview column */
+  .preview-col { position: sticky; top: var(--space-6); }
+
+  .cert-frame {
+    background: var(--cert-bg);
+    border-radius: 4px;
+    padding: 28px;
+    aspect-ratio: 1.414 / 1;
+    display: flex;
+    box-shadow: 0 20px 50px -20px rgba(0,0,0,0.6);
+  }
+  .cert-border {
+    flex: 1;
+    position: relative;
+    border: 3px solid var(--cert-border);
+    padding: 6px;
+  }
+  .cert-border::before {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 1px solid var(--cert-border-inner);
+    pointer-events: none;
+  }
+  .cert-corner {
+    position: absolute;
+    font-size: 20px;
+    color: var(--cert-flourish);
+    line-height: 1;
+  }
+  .cert-corner.tl { top: 16px; left: 16px; }
+  .cert-corner.tr { top: 16px; right: 16px; }
+  .cert-corner.bl { bottom: 16px; left: 16px; }
+  .cert-corner.br { bottom: 16px; right: 16px; }
+
+  .cert-content {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--cert-ink);
+    font-family: var(--font-serif);
+    padding: 0 40px;
+  }
+  .cert-eyebrow {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cert-ink-muted);
+    margin-bottom: 18px;
+  }
+  .cert-title {
+    font-size: 30px;
+    font-weight: 400;
+    margin: 0 0 22px;
+    letter-spacing: 0.01em;
+  }
+  .cert-recipient {
+    font-size: 34px;
+    margin: 0 0 18px;
+    font-style: italic;
+    border-bottom: 1px solid var(--cert-border-inner);
+    padding-bottom: 10px;
+  }
+  .cert-body {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--cert-ink-muted);
+    max-width: 420px;
+    line-height: 1.6;
+    margin: 0 0 26px;
+  }
+  .cert-body strong { color: var(--cert-ink); font-weight: 600; }
+
+  .cert-footer {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin-top: 8px;
+  }
+  .cert-footer-item { text-align: center; min-width: 120px; }
+  .cert-footer-label {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cert-ink-muted);
+    margin-bottom: 4px;
+  }
+  .cert-footer-value {
+    font-size: 14px;
+    border-top: 1px solid var(--cert-ink-muted);
+    padding-top: 4px;
+  }
+  .cert-logo {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1px solid var(--cert-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-serif);
+    font-size: 12px;
+    color: var(--cert-border);
+  }
+
+  .actions {
+    display: flex;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+  }
+  .btn {
+    flex: 1;
+    padding: 12px var(--space-4);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    font-size: 14px;
+    font-weight: 500;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+  }
+  .btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+  }
+  .btn-secondary {
+    background: var(--surface-raised);
+    color: var(--text);
+  }
+
+  @media (max-width: 860px) {
+    main { grid-template-columns: 1fr; }
+    .preview-col { position: static; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-mark">CC</div>
+    CertiCreate
+  </div>
+  <div class="tagline">Design prototype - not the built app</div>
+</header>
+
+<main>
+  <div class="left-col">
+
+    <div class="panel">
+      <h2>Certificate details</h2>
+      <div class="field">
+        <label for="name">Recipient name</label>
+        <input id="name" readonly value="Ava Thompson" />
+      </div>
+      <div class="field">
+        <label for="course">Course or achievement</label>
+        <input id="course" readonly value="Advanced React Patterns" />
+      </div>
+      <div class="field">
+        <label for="date">Date</label>
+        <input id="date" readonly value="March 14, 2026" />
+      </div>
+      <div class="field">
+        <label for="instructor">Instructor</label>
+        <input id="instructor" readonly value="Richwell Antwi" />
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Template</h2>
+      <div class="templates">
+        <div class="template-card selected">
+          <div class="template-swatch"></div>
+          <div class="name">Black Border</div>
+        </div>
+        <div class="template-card">
+          <div class="template-swatch alt2"></div>
+          <div class="name">Classic Seal</div>
+        </div>
+        <div class="template-card">
+          <div class="template-swatch alt3"></div>
+          <div class="name">Modern Minimal</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Brand settings</h2>
+      <div class="logo-upload">Logo</div>
+      <div class="field">
+        <label for="brand-instructor">Default instructor</label>
+        <input id="brand-instructor" readonly value="Richwell Antwi" />
+      </div>
+      <div class="field">
+        <label>Accent color</label>
+        <div class="swatches">
+          <div class="swatch selected" style="background:#1d4ed8"></div>
+          <div class="swatch" style="background:#c9a86a"></div>
+          <div class="swatch" style="background:#1c2430"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>History</h2>
+      <div class="history-row">
+        <div class="history-main">
+          <div class="name">Ava Thompson</div>
+          <div class="meta">Advanced React Patterns · Mar 14, 2026</div>
+        </div>
+        <a class="history-link" href="#">Re-download</a>
+      </div>
+      <div class="history-row">
+        <div class="history-main">
+          <div class="name">Marcus Lee</div>
+          <div class="meta">Node.js Fundamentals · Mar 10, 2026</div>
+        </div>
+        <a class="history-link" href="#">Re-download</a>
+      </div>
+      <div class="history-row">
+        <div class="history-main">
+          <div class="name">Priya Patel</div>
+          <div class="meta">UI/UX Foundations · Mar 2, 2026</div>
+        </div>
+        <a class="history-link" href="#">Re-download</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="preview-col">
+    <div class="cert-frame">
+      <div class="cert-border">
+        <span class="cert-corner tl">&#10070;</span>
+        <span class="cert-corner tr">&#10070;</span>
+        <span class="cert-corner bl">&#10070;</span>
+        <span class="cert-corner br">&#10070;</span>
+        <div class="cert-content">
+          <div class="cert-eyebrow">This certifies that</div>
+          <h1 class="cert-recipient">Ava Thompson</h1>
+          <p class="cert-body">
+            has successfully completed the course<br />
+            <strong>Advanced React Patterns</strong>
+          </p>
+          <div class="cert-footer">
+            <div class="cert-footer-item">
+              <div class="cert-footer-label">Date</div>
+              <div class="cert-footer-value">Mar 14, 2026</div>
+            </div>
+            <div class="cert-logo">RA</div>
+            <div class="cert-footer-item">
+              <div class="cert-footer-label">Instructor</div>
+              <div class="cert-footer-value">Richwell Antwi</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-primary">Download PNG</button>
+      <button class="btn btn-secondary">Download PDF</button>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>
