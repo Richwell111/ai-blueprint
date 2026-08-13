@@ -1,18 +1,10 @@
-import { BlackBorderCertificate } from "@/components/certificate/BlackBorderCertificate";
-import type { CertificateData } from "@/types/certificate";
-
-const placeholderData: CertificateData = {
-  recipientName: "Ava Thompson",
-  courseTitle: "Advanced React Patterns",
-  date: "March 14, 2026",
-  instructorName: "Brad Traversy",
-};
+import { CertificateBuilder } from "@/components/certificate/CertificateBuilder";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-bg p-8">
-      <div className="w-full max-w-3xl">
-        <BlackBorderCertificate data={placeholderData} />
+    <main className="min-h-screen bg-bg p-8">
+      <div className="mx-auto w-full max-w-5xl">
+        <CertificateBuilder />
       </div>
     </main>
   );
