@@ -18,11 +18,12 @@
   --accent-ink: #071022;
 
   /* certificate artifact - always light, independent of chrome theme.
-     Matches blueprint/references/cert-example.png, not the earlier
-     /prototype guess (which used a brighter blue and a gold flourish). */
+     Matches blueprint/references/cert-example.png: a black outer frame
+     around a navy double-line border, not the earlier teal guess. */
   --cert-bg: #fffdf8;
-  --cert-border: #2f6f7e;
-  --cert-border-inner: #86b4bd;
+  --cert-frame: #000000;
+  --cert-border: #1f3a5f;
+  --cert-border-inner: #3c5a80;
   --cert-ink: #1c2430;
   --cert-ink-muted: #667085;
 }
@@ -40,6 +41,7 @@
   --color-accent-ink: var(--accent-ink);
 
   --color-cert-bg: var(--cert-bg);
+  --color-cert-frame: var(--cert-frame);
   --color-cert-border: var(--cert-border);
   --color-cert-border-inner: var(--cert-border-inner);
   --color-cert-ink: var(--cert-ink);
@@ -47,6 +49,7 @@
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-lora);
 }
 
 body {

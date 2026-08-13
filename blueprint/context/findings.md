@@ -7,7 +7,7 @@
 > finding is `open` or `fixed`, then archives resolved findings with the work
 > and resets this file.
 
-### F-01 [P2] open - Misplaced eslint-disable doesn't suppress the rule it targets
+### F-01 [P2] fixed - Misplaced eslint-disable doesn't suppress the rule it targets
 
 **File:** components/certificate/BlackBorderCertificate.tsx:72
 **Found:** 2026-08-13 by /audit (scope: current)
@@ -20,7 +20,9 @@ warning it was meant to suppress (line 74) - the intended suppression never
 took effect.
 **Suggested fix:** Move the `// eslint-disable-next-line @next/next/no-img-element`
 comment to immediately precede the `<img` line (currently line 74).
-**Resolution:**
+**Resolution:** Moved the comment to immediately precede the `<img` element
+while touching this function for the certificate design fix. `npm run lint`
+now reports zero warnings.
 
 ### F-02 [P3] open - Geist Mono is loaded and preloaded but never used
 

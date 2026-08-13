@@ -11,7 +11,7 @@ over time.
 
 ## 2. Users - Who is this for?
 
-Primary: Brad and Traversy Media, issuing certificates to students who finish a
+Primary: Richwell and Traversy Media, issuing certificates to students who finish a
 course. Secondary (the product direction): other course creators, bootcamps,
 workshop hosts, and event organizers who need branded certificates without a
 designer or Canva. Later: students self-serving their own certificate after
@@ -65,7 +65,7 @@ and file URLs, CSV batch jobs, and billing/subscription records.
 
 ## 6. Monetize - How will this make money?
 
-v1 does not. It's a free, local tool for Brad and anyone who lands on it, shipped
+v1 does not. It's a free, local tool for Richwell and anyone who lands on it, shipped
 to prove the core flow and the rendering pipeline.
 
 If it grows into a product later: freemium SaaS for course creators. A free tier
