@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: certicreate
+    runtime: node
+    plan: starter
+    region: oregon
+    branch: master
+    autoDeploy: true
+    buildCommand: npm install && npm run build
+    startCommand: next start -p $PORT
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: 22
