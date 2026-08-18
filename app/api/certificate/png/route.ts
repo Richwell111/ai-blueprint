@@ -1,9 +1,9 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { withRenderPage } from "@/lib/puppeteer";
+import { RenderCapacityError, withRenderPage } from "@/lib/puppeteer";
 import type { CertificateData } from "@/types/certificate";
 
 const EXPORT_WIDTH = 1400;
-const EXPORT_HEIGHT = Math.round(EXPORT_WIDTH / 1.414);
+const EXPORT_HEIGHT = Math.round((EXPORT_WIDTH * 210) / 297);
 const DEVICE_SCALE_FACTOR = 2;
 
 export async function POST(request: NextRequest) {
@@ -55,6 +55,12 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
+    if (error instanceof RenderCapacityError) {
+      return NextResponse.json(
+        { error: "Certificate renderer is busy. Please try again." },
+        { status: 503, headers: { "Retry-After": "5" } },
+      );
+    }
     console.error("PNG export failed", error);
     return NextResponse.json(
       { error: "Failed to render certificate PNG" },

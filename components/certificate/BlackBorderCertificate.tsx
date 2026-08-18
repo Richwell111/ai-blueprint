@@ -11,14 +11,14 @@ export function BlackBorderCertificate({ data }: { data: CertificateData }) {
   } = data;
 
   return (
-    <div className="@container aspect-[1.414/1] w-full rounded-3xl border-[0.6cqw] border-cert-frame bg-cert-bg p-[2.4cqw] shadow-2xl shadow-black/40">
+    <div className="@container aspect-[297/210] w-full rounded-3xl border-[0.6cqw] border-cert-frame bg-cert-bg p-[2.4cqw] shadow-2xl shadow-black/40">
       <div className="relative h-full rounded-2xl border-[0.25cqw] border-cert-border p-[0.4cqw]">
         <div className="pointer-events-none absolute inset-[0.6cqw] rounded-xl border-[0.08cqw] border-cert-border-inner" />
         <CornerFlourish className="top-[1.2cqw] left-[1.2cqw]" />
         <CornerFlourish className="top-[1.2cqw] right-[1.2cqw] -scale-x-100" />
         <CornerFlourish className="bottom-[1.2cqw] left-[1.2cqw] -scale-y-100" />
         <CornerFlourish className="right-[1.2cqw] bottom-[1.2cqw] -scale-x-100 -scale-y-100" />
-        <div className="relative flex h-full flex-col items-center justify-between gap-[1.6cqw] px-[8cqw] py-[4cqw] text-center font-sans text-cert-ink">
+        <div className="relative grid h-full grid-rows-[auto_1fr_auto] place-items-center px-[8cqw] py-[4cqw] text-center font-sans text-cert-ink">
           <div>
             <h1 className="font-serif text-[4cqw] leading-[1.1] font-semibold tracking-tight">
               Certificate
@@ -28,21 +28,23 @@ export function BlackBorderCertificate({ data }: { data: CertificateData }) {
             </p>
           </div>
 
-          <p className="text-[1cqw] font-semibold tracking-[0.2em] text-cert-ink-muted uppercase">
-            This is to certify that
-          </p>
+          <div className="flex flex-col items-center gap-[2.4cqw] self-center">
+            <p className="text-[1cqw] font-semibold tracking-[0.2em] text-cert-ink-muted uppercase">
+              This is to certify that
+            </p>
 
-          <h2 className="border-b-[0.1cqw] border-cert-border-inner px-[2.4cqw] pb-[0.6cqw] text-[2.6cqw] font-bold tracking-wide uppercase">
-            {recipientName}
-          </h2>
+            <h2 className="border-b-[0.1cqw] border-cert-border-inner px-[2.4cqw] pb-[0.6cqw] text-[2.6cqw] font-bold tracking-wide uppercase">
+              {recipientName}
+            </h2>
 
-          <p className="max-w-[70cqw] text-[1.3cqw] text-cert-ink-muted">
-            Has completed the following {organizationName} course:
-            <br />
-            <span className="font-semibold text-cert-ink">{courseTitle}</span>
-          </p>
+            <p className="max-w-[70cqw] text-[1.3cqw] text-cert-ink-muted">
+              Has completed the following {organizationName} course:
+              <br />
+              <span className="font-semibold text-cert-ink">{courseTitle}</span>
+            </p>
+          </div>
 
-          <div className="mt-[1.2cqw] flex items-center gap-[4cqw]">
+          <div className="flex items-center gap-[4cqw]">
             <FooterItem label="Instructor" value={instructorName} />
             <LogoMark src={logoUrl} />
             <FooterItem label="Date" value={date} />
