@@ -1,0 +1,14 @@
+name: Keep Render instance awake
+
+on:
+  schedule:
+    # Render's free tier spins down after ~15 min idle; ping well inside that.
+    - cron: "*/10 * * * *"
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping health endpoint
+        run: curl -fsS --max-time 55 https://ai-blueprint.onrender.com/api/health
