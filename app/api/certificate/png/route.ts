@@ -14,7 +14,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const printUrl = new URL("/certificate/print", request.nextUrl.origin);
+  // Navigate over loopback, not `request.nextUrl.origin`: on Render the edge
+  // proxy terminates TLS but forwards to this container over plain HTTP, so
+  // trusting forwarded headers there produces `https://localhost:<port>` and
+  // Puppeteer's self-request fails with ERR_SSL_PROTOCOL_ERROR. Puppeteer and
+  // the server share this container, so loopback + the bound port is correct
+  // in both dev and prod.
+  const port = process.env.PORT ?? "3000";
+  const printUrl = new URL("/certificate/print", `http://127.0.0.1:${port}`);
   printUrl.searchParams.set("data", JSON.stringify(data));
 
   try {
